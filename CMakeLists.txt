@@ -1,0 +1,24 @@
+cmake_minimum_required(VERSION 3.11)
+
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  set(CMAKE_BUILD_TYPE "Release")
+endif()
+
+project(cobs VERSION 1.0 LANGUAGES C CXX)
+include(GNUInstallDirs)
+
+add_library(cobs SHARED cobs.h cobs.c)
+
+set_target_properties(cobs PROPERTIES
+  SOVERSION 1
+  VERSION ${PROJECT_VERSION}
+  PUBLIC_HEADER cobs.h
+)
+
+install(TARGETS cobs
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+
+configure_file(cobs.pc.in cobs.pc @ONLY)
